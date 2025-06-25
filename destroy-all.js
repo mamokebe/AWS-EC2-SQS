@@ -110,3 +110,13 @@ async function destroyAllResources() {
 }
 
 await destroyAllResources();
+
+//this script with caution, as it will delete all resources in your AWS account that match the criteria specified in the script. Make sure to run it in a test environment or with resources you are okay with deleting.
+
+// Note: This script assumes that the AWS credentials and region are set in the environment variables.
+// Make sure to set AWS_REGION and AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY before running this script.
+// You can set these in your terminal or in a .env file if you're using dotenv package.
+
+// Example usage:
+// node destroy-all.js
+// This will clean up all resources created by the previous scripts in this project.

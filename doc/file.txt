@@ -1,5 +1,6 @@
 Introduction:
 ***************
+setup-deploy.js 
  This script automatically provisions and configures a minimal distributed system on AWS using:
    Amazon EC2 (for frontend and backend servers)
    Amazon SQS (as a messaging queue)
@@ -59,4 +60,6 @@ Summary
  Deployment via scp, ssh, and execSync
  Node.js background process management (nohup, setInterval, etc.)
 
-Note: save your credentials in .env file
+Note: 
+  - save your credentials in .env file
+  - destroy-all.js script will clean up all resources created by the previous scripts (setup-deploy.js). 
