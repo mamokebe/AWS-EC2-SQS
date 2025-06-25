@@ -1,0 +1,22 @@
+{
+  "name": "aws-sqs",
+  "version": "1.0.0",
+  "main": "setup-deploy.js",
+  "type": "module",
+  "scripts": {
+    "deploy": "node setup-deploy.js",
+    "destroy": "node destroy-all.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.835.0",
+    "@aws-sdk/client-iam": "^3.835.0",
+    "@aws-sdk/client-sqs": "^3.835.0",
+    "@aws-sdk/credential-provider-env": "^3.835.0",
+    "dotenv": "^16.5.0",
+    "uuid": "^11.1.0"
+  }
+}

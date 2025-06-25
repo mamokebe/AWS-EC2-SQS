@@ -1,0 +1,62 @@
+Introduction:
+***************
+ This script automatically provisions and configures a minimal distributed system on AWS using:
+   Amazon EC2 (for frontend and backend servers)
+   Amazon SQS (as a messaging queue)
+   IAM Roles (to allow instances to interact with SQS securely)
+ It then deploys  Node.js app and starts sending/receiving messages via the queue dynamically.
+
+steps by steps
+***************
+1. Environment & Clients Setup
+  Loads AWS credentials and region from .env.
+  Initializes EC2Client and SQSClient using the AWS SDK.
+2. Key Pair and SQS Queue
+  Creates a new EC2 key pair automatically and saves the private key locally.
+  Creates a new SQS queue and updates your sendMessage.js and pollMessage.js files with the actual queue URL.
+3. Network Infrastructure
+  Creates everything needed for secure public networking:
+   VPC (10.0.0.0/16)
+  Internet Gateway (attached to VPC)
+  Subnet (10.0.1.0/24)
+  Route Table (default route to internet via IGW)
+  Security Group (allows SSH, HTTP, HTTPS access)
+4. EC2 Instances
+  Launches 2 Amazon Linux 2 EC2 instances (one "frontend", one "backend").
+  Associates them with the subnet and security group.
+  Waits for both instances to enter the running state.
+  Retrieves their public IP addresses.
+5. IAM Role Attachments
+  Uses your custom utility attachIamRoleToInstance() to:
+  Attach a role to frontend: to ReceiveMessage from SQS.
+  Attach a role to backend: to SendMessage to SQS.
+6. Node.js Setup & Script Deployment
+  Waits for SSH access to both instances.
+  Installs Node.js on both.
+  Creates working directory: /home/ec2-user/app
+ Copies:
+   All app scripts
+   package.json and package-lock.json
+   Runs npm install to install dependencies on both.
+7. Start Messaging App
+  On frontend:
+    Creates autoSend.js which sends one message every 10 seconds.
+    Stops after 10 messages (clearInterval).
+ On backend:
+   Starts pollMessage.js in the background to listen for messages.
+
+Final Result
+  A complete 2-EC2 microservice setup:
+    Frontend sends 10 messages to SQS.
+    backend receives, poll message, and delete them .
+    Logs saved to autoSend.log and poll.log.
+
+Summary
+ VPC/Subnet/IAM/Security Group basics
+ EC2 provisioning
+ Secure SSH setup
+ SQS integration with IAM policies
+ Deployment via scp, ssh, and execSync
+ Node.js background process management (nohup, setInterval, etc.)
+
+Note: save your credentials in .env file
